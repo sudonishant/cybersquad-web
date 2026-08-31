@@ -1,4 +1,6 @@
-HTML_CONTENT = """<!DOCTYPE html>
+import re
+
+content = '''HTML_CONTENT = """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -475,7 +477,7 @@ HTML_CONTENT = """<!DOCTYPE html>
     function redactText(str) {
       if (!maskPII || !str) return str;
       return str.replace(/([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, "redacted_user@$2")
-                .replace(/\d{10,16}/g, "[ACCOUNT-REDACTED]");
+                .replace(/\b\d{10,16}\b/g, "[ACCOUNT-REDACTED]");
     }
 
     async function handleFileSelect(event) {
@@ -586,12 +588,7 @@ HTML_CONTENT = """<!DOCTYPE html>
       document.getElementById('dossier-timestamp').innerText = custody.ingestion_timestamp_utc || new Date().toISOString();
       document.getElementById('dossier-origin').innerText = originStr;
       document.getElementById('dossier-campaign').innerText = data.graph_topology?.campaign_id || "CAMP-SUSPECT-ALPHA";
-      document.getElementById('dossier-findings').innerText = `Primary Verdict: ${data.category_analysis?.category_label}
-Risk Score: ${score}/100
-Attribution: ${originStr}
-Origin IP: ${originNode?.ip || 'N/A'} (ASN: ${originGeo?.asn || 'N/A'})
-Threat Level: ${originGeo?.threat_flag || 'EVALUATED'}
-Preservation Standard: RFC 5322 MIME Immutable Stream with Section 65B Hash Verification.`;
+      document.getElementById('dossier-findings').innerText = `Primary Verdict: ${data.category_analysis?.category_label}\nRisk Score: ${score}/100\nAttribution: ${originStr}\nOrigin IP: ${originNode?.ip || 'N/A'} (ASN: ${originGeo?.asn || 'N/A'})\nThreat Level: ${originGeo?.threat_flag || 'EVALUATED'}\nPreservation Standard: RFC 5322 MIME Immutable Stream with Section 65B Hash Verification.`;
 
       lucide.createIcons();
     }
@@ -722,8 +719,7 @@ Preservation Standard: RFC 5322 MIME Immutable Stream with Section 65B Hash Veri
         text.setAttribute('fill', '#edf2f7');
         text.setAttribute('font-size', '11px');
         text.setAttribute('font-weight', '700');
-        text.textContent = (pos.label || pos.id).split('
-')[0];
+        text.textContent = (pos.label || pos.id).split('\n')[0];
         g.appendChild(text);
 
         svg.appendChild(g);
@@ -788,3 +784,8 @@ Preservation Standard: RFC 5322 MIME Immutable Stream with Section 65B Hash Veri
 </body>
 </html>
 """
+'''
+
+with open('backend/app/static_index.py', 'w') as f:
+    f.write(content)
+print('Successfully written updated static_index.py')
