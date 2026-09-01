@@ -1,4 +1,6 @@
-HTML_CONTENT = r"""<!DOCTYPE html>
+import re
+
+content = r'''HTML_CONTENT = """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -1009,3 +1011,8 @@ HTML_CONTENT = r"""<!DOCTYPE html>
 </body>
 </html>
 """
+'''
+
+with open('backend/app/static_index.py', 'w') as f:
+    f.write(content)
+print('Successfully generated master static_index.py')
