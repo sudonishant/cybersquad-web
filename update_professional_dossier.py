@@ -1,4 +1,6 @@
-HTML_CONTENT = r"""<!DOCTYPE html>
+import re
+
+content = r'''HTML_CONTENT = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -1159,3 +1161,9 @@ HTML_CONTENT = r"""<!DOCTYPE html>
 </body>
 </html>
 """
+'''
+
+with open('backend/app/static_index.py', 'w') as f:
+    f.write(content)
+
+print('Successfully cleaned test cases ribbon and built ultra-professional court dossier')
