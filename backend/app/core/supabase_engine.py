@@ -10,12 +10,12 @@ import urllib.request
 from typing import Any, Dict, Optional
 
 
-SUPABASE_URL = os.getenv("SUPABASE_URL", "https://jpoppmxygbtxsmxgpacz.supabase.co").rstrip("/")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impwb3BwbXh5Z2J0eHNteGdwYWN6Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4ODI3Mzk3MSwiZXhwIjoyMTAzODQ5OTcxfQ.A_XOArONs9bNz6M25-lhLUaL2jdCyrIj47IavXnlKVQ")
+SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY", "") or os.getenv("SUPABASE_ANON_KEY", "")
 
 
 SUPABASE_SCHEMA_SQL = """-- =============================================================================
--- CYBER SQUAD SENTINELMAIL: SUPABASE POSTGRESQL SCHEMA (SIH 2026 #26106)
+-- SUDO SPANDR SENTINELMAIL: SUPABASE POSTGRESQL SCHEMA (SIH 2026 #26106)
 -- Run this in your Supabase SQL Editor: https://supabase.com/dashboard/project/jpoppmxygbtxsmxgpacz/sql/new
 -- =============================================================================
 
@@ -57,10 +57,10 @@ CREATE POLICY "Allow service role full access"
 
 def get_supabase_config() -> Dict[str, Any]:
     return {
-        "url": SUPABASE_URL,
+        "url": SUPABASE_URL or "NOT_CONFIGURED",
         "has_credentials": bool(SUPABASE_URL and SUPABASE_KEY),
         "table_name": "forensic_cases",
-        "sql_editor_url": "https://supabase.com/dashboard/project/jpoppmxygbtxsmxgpacz/sql/new"
+        "sql_editor_url": f"{SUPABASE_URL}/project/sql/new" if SUPABASE_URL else "https://supabase.com/dashboard"
     }
 
 
